@@ -5357,6 +5357,14 @@ match_int_operand (struct mips_arg_info *arg,
 
   arg->last_op_int = sval;
 
+  /* spimdisasm unsigned encoding  */
+  if ((arg->insn->insn_mo->ase & ASE_RSP)
+      && operand_base->lsb == 0
+      && operand_base->size == 7
+      && operand->bias == 0
+      && operand->max_val == 63)
+    max_val = 127 * factor;
+
   if (sval < min_val || sval > max_val || sval % factor)
     {
       match_out_of_range (arg);
